@@ -11,20 +11,29 @@ namespace fin_manager.Models
         public string? Id { get; set; }
 
         [BsonElement("title")]
-        public string Title { get; set; } = "Compra";
+        public string Title { get; set; }
         
         [BsonElement("place")]
         [Required]
         public string Place { get; set; }
+
+        [BsonElement("totalValue")]
+        public double TotalValue
+        {
+            get
+            {
+                return TotalPurchasePrice();
+            }
+        }
         
         [BsonElement("products")]
-        public List<ProductModel> Products { get; set; }
+        public List<ProductModel> Products { get; set; } = new List<ProductModel>();
 
 
-        public PurchaseModel(string title, string place)
+        public PurchaseModel(string place, string title = "Compra")
         {
-            Title = title;
             Place = place;
+            Title = title;
         }
 
 
@@ -38,7 +47,7 @@ namespace fin_manager.Models
             double total = 0;
             foreach (ProductModel product in Products)
             {
-                total += product.Price * product.Amount;
+                total += product.TotalPrice();
             }
 
             return total;

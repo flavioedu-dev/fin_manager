@@ -24,7 +24,6 @@ namespace fin_manager.Services
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -37,7 +36,6 @@ namespace fin_manager.Services
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -52,7 +50,6 @@ namespace fin_manager.Services
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -61,11 +58,10 @@ namespace fin_manager.Services
         {
             try
             {
-                _purchases.ReplaceOne(id, purchase);
+                _purchases.ReplaceOne(x => x.Id == id, purchase);
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
@@ -78,7 +74,6 @@ namespace fin_manager.Services
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }

@@ -40,6 +40,27 @@ namespace fin_manager.Services
             }
         }
 
+        public List<ProductModel> GetManyProducts(List<string> productsId)
+        {
+            try
+            {
+                List<ProductModel> purchaseProducts = new List<ProductModel>();
+                foreach (string productId in productsId)
+                {
+                    ProductModel productExists = _products.Find(x => x.Id == productId).FirstOrDefault();
+                    purchaseProducts.Add(productExists);
+                }
+
+                if (purchaseProducts.Count != productsId.Count) throw new Exception("Error when finding products.");
+
+                return purchaseProducts;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Database error: ${ex.Message}");
+            }
+        }
+
         public ProductModel CreateProduct(ProductModel product)
         {
             try

@@ -51,6 +51,22 @@ namespace fin_manager.Controllers
             }
         }
 
+        [HttpPost("/purchase")]
+        public ActionResult<List<ProductModel>> GetManyProducts(PurchaseModel purchase)
+        {
+            try
+            {
+                List<ProductModel> purchaseProducts = _productService.GetManyProducts(purchase.Products);
+                if (purchaseProducts == null || purchaseProducts.Count == 0) throw new Exception("No registered products.");
+
+                return Ok(purchaseProducts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST api/<ProductController>
         [HttpPost]
         public ActionResult<ProductModel> CreateProduct([FromBody] ProductModel product)

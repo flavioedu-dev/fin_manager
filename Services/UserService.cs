@@ -15,6 +15,18 @@ namespace fin_manager.Services
             _users = database.GetCollection<UserModel>("users");
         }
 
+        public List<UserModel> GetUsers()
+        {
+            try
+            {
+                return _users.Find(_ => true).ToList<UserModel>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Database error: ${ex.Message}");
+            }
+        }
+
         public UserModel CreateUser(UserModel user)
         {
             try
@@ -45,18 +57,6 @@ namespace fin_manager.Services
             try
             {
                 return _users.Find(x => x.Email == email).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Database error: ${ex.Message}");
-            }
-        }
-
-        public List<UserModel> GetUsers()
-        {
-            try
-            {
-                return _users.Find(_ => true).ToList<UserModel>();
             }
             catch (Exception ex)
             {

@@ -49,6 +49,10 @@ namespace fin_manager.Controllers
                 PurchaseModel purchaseExists = _purchaseService.GetPurchaseById(id);
                 if (purchaseExists == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.OneNotFound, "Purchase"));
 
+                List<ProductModel> purchaseProducts = _productService.GetManyProducts(purchaseExists.Products);
+
+                purchaseExists.TotalPurchasePrice(purchaseProducts);
+
                 return Ok(purchaseExists);
             }
             catch (Exception ex)
@@ -93,7 +97,7 @@ namespace fin_manager.Controllers
             }
         }
 
-        [HttpPost("{id}/products")]
+        [HttpPost("{id}")]
         public ActionResult AddProductToPurchase(string id, [FromBody] ProductModel product)
         {
             try
@@ -104,36 +108,9 @@ namespace fin_manager.Controllers
                 ProductModel productCreated = _productService.CreateProduct(product);
                 if (purchaseExists == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.NotCreated, "Product"));
 
-                purchaseExists.AddProduct(productCreated);
+                purchaseExists.AddProduct(productCreated.Id);
 
                 _purchaseService.UpdatePurchase(id, purchaseExists);
-
-                return Ok(purchaseExists);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        // I am here
-        [HttpPut("{purchaseId}/products/{productId}")]
-        public ActionResult UpdatePurchaseProduct(string purchaseId, string productId, [FromBody] ProductModel product)
-        {
-            try
-            {
-                PurchaseModel purchaseExists = _purchaseService.GetPurchaseById(purchaseId);
-                if (purchaseExists == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.OneNotFound, "Purchase"));
-
-                purchaseExists.Products.ForEach(prod => {
-                    if (prod.Id == productId)
-                    {
-                       prod = product;
-                    }
-                    }
-                );
-
-                _purchaseService.UpdatePurchase(purchaseId, purchaseExists);
 
                 return Ok(purchaseExists);
             }

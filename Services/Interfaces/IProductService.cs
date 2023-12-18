@@ -6,6 +6,7 @@ namespace fin_manager.Services.Interfaces
     {
         public List<ProductModel> GetProducts();
         public ProductModel GetProductById(string id);
+        public List<ProductModel> GetManyProducts(List<string> productsId);
         public ProductModel CreateProduct(ProductModel product);
         public void UpdateProduct(string id, ProductModel product);
         public void DeleteProduct(string id);

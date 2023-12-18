@@ -48,6 +48,8 @@ namespace fin_manager.Services
                 foreach (string productId in productsId)
                 {
                     ProductModel productExists = _products.Find(x => x.Id == productId).FirstOrDefault();
+                    if (productExists == null) throw new Exception($"Product with id {productId} not found.");
+                    
                     purchaseProducts.Add(productExists);
                 }
 

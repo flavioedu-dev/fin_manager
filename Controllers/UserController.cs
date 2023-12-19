@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using fin_manager.Models;
 using fin_manager.Services.Interfaces;
+using fin_manager.Services;
+using fin_manager.Utils.Enum;
+using fin_manager.Utils;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +14,12 @@ namespace fin_manager.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IPurchaseService _purchaseService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IPurchaseService purchaseService)
         {
             _userService = userService;
+            _purchaseService = purchaseService;
         }
 
         // GET: api/<UserController>
@@ -51,6 +56,25 @@ namespace fin_manager.Controllers
             }
         }
 
+        // GET api/<UserController>/5
+        [HttpGet("{id}/purchases")]
+        public ActionResult<UserModel> GetUserPurchasesById(string id)
+        {
+            try
+            {
+                var userExists = _userService.GetUserById(id);
+                if (userExists == null) throw new Exception("User not registered.");
+
+                var userPurchases = _purchaseService.GetUserPurchases(userExists.Purchases).ToList();
+
+                return Ok(userPurchases);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // POST api/<UserController>
         [HttpPost]
         public  ActionResult<UserModel> CreateUser([FromBody] UserModel user)
@@ -64,6 +88,29 @@ namespace fin_manager.Controllers
                 if (userCreated == null) throw new Exception("User not created.");
 
                 return Ok(userCreated);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{id}/purchases")]
+        public ActionResult AddPurchaseToUser(string id, [FromBody] PurchaseModel purchase)
+        {
+            try
+            {
+                UserModel userExists = _userService.GetUserById(id);
+                if (userExists == null) throw new Exception("User not found.");
+
+                PurchaseModel purchaseCreated = _purchaseService.CreatePurchase(purchase);
+                if (purchaseCreated == null) throw new Exception("Purchase not creadted.");
+
+                userExists.AddPurchaseToUser(purchaseCreated.Id);
+
+                _userService.UpdateUser(id, userExists);
+
+                return Ok(userExists);
             }
             catch (Exception ex)
             {

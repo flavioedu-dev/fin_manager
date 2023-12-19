@@ -51,7 +51,7 @@ namespace fin_manager.Controllers
             }
         }
 
-        [HttpPost("/purchase")]
+        [HttpPost("/purchases")]
         public ActionResult<List<ProductModel>> GetManyProducts(PurchaseModel purchase)
         {
             try

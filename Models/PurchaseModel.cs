@@ -12,16 +12,16 @@ namespace fin_manager.Models
 
         [BsonElement("title")]
         public string Title { get; set; }
-        
+
         [BsonElement("place")]
         [Required]
         public string Place { get; set; }
 
         [BsonElement("totalValue")]
-        public double TotalValue { get; set; }
+        public double TotalValue { get; private set; }
 
         [BsonElement("products")]
-        public List<string> Products { get; set; } = new List<string>();
+        public List<string> Products { get; private set; } = new List<string>();
 
 
         public PurchaseModel(string place, string title = "Compra")
@@ -31,7 +31,7 @@ namespace fin_manager.Models
         }
 
 
-        public void AddProduct (String idProduct)
+        public void AddProduct(string idProduct)
         {
             Products.Add(idProduct);
         }

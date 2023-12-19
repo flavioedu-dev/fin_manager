@@ -21,5 +21,13 @@ namespace fin_manager.Models
         [BsonElement("password")]
         [Required]
         public string Password { get; set; }
+
+        [BsonElement("purchases")]
+        public List<string> Purchases { get; private set; } = new List<string>();
+
+        public void AddPurchaseToUser(string idPurchase)
+        {
+            Purchases.Add(idPurchase);
+        }
     }
 }

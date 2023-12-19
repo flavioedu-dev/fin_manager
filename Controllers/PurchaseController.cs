@@ -15,12 +15,14 @@ namespace fin_manager.Controllers
     {
         private readonly IPurchaseService _purchaseService;
         private readonly IProductService _productService;
+        private readonly IUserService _userService;
         private readonly ErrorHelper _errorHelper = new ErrorHelper();
 
-        public PurchaseController(IPurchaseService purchaseService, IProductService productService)
+        public PurchaseController(IPurchaseService purchaseService, IProductService productService, IUserService userService)
         {
             _purchaseService = purchaseService;
             _productService = productService;
+            _userService = userService;
         }
 
         // GET: api/<PurchaseController>
@@ -63,7 +65,7 @@ namespace fin_manager.Controllers
 
         // POST api/<PurchaseController>
         [HttpPost]
-        public ActionResult CreatePurchase([FromBody] PurchaseModel purchase)
+        public ActionResult CreatePurchase(string idUser, [FromBody] PurchaseModel purchase)
         {
             try
             {
@@ -97,7 +99,7 @@ namespace fin_manager.Controllers
             }
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{id}/products")]
         public ActionResult AddProductToPurchase(string id, [FromBody] ProductModel product)
         {
             try

@@ -27,7 +27,7 @@ namespace fin_manager.Controllers
 
         // GET: api/<PurchaseController>
         [HttpGet]
-        public ActionResult<List<PurchaseModel>> GetPurchases ()
+        public ActionResult<List<PurchaseModel>> GetPurchases()
         {
             try
             {
@@ -51,11 +51,29 @@ namespace fin_manager.Controllers
                 PurchaseModel purchaseExists = _purchaseService.GetPurchaseById(id);
                 if (purchaseExists == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.OneNotFound, "Purchase"));
 
-                List<ProductModel> purchaseProducts = _productService.GetManyProducts(purchaseExists.Products);
+                List<ProductModel> purchaseProducts = _productService.GetPurchaseProducts(purchaseExists.Products);
 
                 purchaseExists.TotalPurchasePrice(purchaseProducts);
 
                 return Ok(purchaseExists);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/products")]
+        public ActionResult<List<ProductModel>> GetPurchaseProductsById(string id)
+        {
+            try
+            {
+                PurchaseModel purchaseExists = _purchaseService.GetPurchaseById(id);
+                if (purchaseExists == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.OneNotFound, "Purchase"));
+
+                List<ProductModel> purchaseProducts = _productService.GetPurchaseProducts(purchaseExists.Products);
+
+                return Ok(purchaseProducts);
             }
             catch (Exception ex)
             {

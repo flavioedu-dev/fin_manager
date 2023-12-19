@@ -93,7 +93,7 @@ namespace fin_manager.Services
         {
             try
             {
-                _purchases.DeleteOne(id);
+                _purchases.DeleteOne(x => x.Id == id);
             }
             catch (Exception ex)
             {

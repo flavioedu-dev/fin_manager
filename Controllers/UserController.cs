@@ -146,6 +146,12 @@ namespace fin_manager.Controllers
                 var userExists = _userService.GetUserById(id);
                 if (userExists == null) return NotFound("User not found.");
 
+                var userPurchases = _purchaseService.GetUserPurchases(userExists.Purchases).ToList();
+                foreach(var purchase in userPurchases)
+                {
+                    _purchaseService.DeletePurchase(purchase.Id);
+                }
+
                 _userService.DeleteUser(userExists.Id);
 
                 return Ok("User deleted successfully.");

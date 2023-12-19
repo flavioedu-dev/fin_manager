@@ -40,7 +40,7 @@ namespace fin_manager.Services
             }
         }
 
-        public List<ProductModel> GetManyProducts(List<string> productsId)
+        public List<ProductModel> GetPurchaseProducts(List<string> productsId)
         {
             try
             {

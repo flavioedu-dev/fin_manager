@@ -17,6 +17,9 @@ namespace fin_manager.Models
         [Required]
         public string Place { get; set; }
 
+        [BsonElement("date")]
+        public DateTime? Date { get; set; }
+
         [BsonElement("totalValue")]
         public double TotalValue { get; private set; }
 
@@ -24,10 +27,11 @@ namespace fin_manager.Models
         public List<string> Products { get; private set; } = new List<string>();
 
 
-        public PurchaseModel(string place, string title = "Compra")
+        public PurchaseModel(string place, string title = "Compra", DateTime? date = null)
         {
             Place = place;
             Title = title;
+            Date = date ?? DateTime.Now;
         }
 
 

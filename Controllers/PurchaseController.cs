@@ -83,7 +83,7 @@ namespace fin_manager.Controllers
 
         // POST api/<PurchaseController>
         [HttpPost]
-        public ActionResult CreatePurchase(string idUser, [FromBody] PurchaseModel purchase)
+        public ActionResult CreatePurchase([FromBody] PurchaseModel purchase)
         {
             try
             {

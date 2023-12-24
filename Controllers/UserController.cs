@@ -29,7 +29,7 @@ namespace fin_manager.Controllers
             try
             {
                 var users = _userService.GetUsers();
-                if (users == null || users.Count == 0) throw new Exception("No registered users.");
+                if (users == null) throw new Exception("Error finding users.");
 
                 return Ok(users);
             }

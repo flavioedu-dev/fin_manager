@@ -24,7 +24,7 @@ namespace fin_manager.Controllers
             try
             {
                 List<ProductModel> products = _productService.GetProducts();
-                if (products == null || products.Count == 0) throw new Exception("No registered products.");
+                if (products == null) throw new Exception("Error finding products.");
 
                 return Ok(products);
             }

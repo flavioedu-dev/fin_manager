@@ -9,7 +9,7 @@ namespace fin_manager.Utils
             switch(typeError)
             {
                 case ApiError.NoneWereFound:
-                    return $"No {item} found.";                
+                    return $"Error finding {item}.";                
                 case ApiError.OneNotFound:
                     return $"{item} not found.";
                 case ApiError.NotCreated:

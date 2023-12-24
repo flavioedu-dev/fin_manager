@@ -32,7 +32,7 @@ namespace fin_manager.Controllers
             try
             {
                 List<PurchaseModel> purchases = _purchaseService.GetPurchases();
-                if (purchases == null || purchases.Count == 0) throw new Exception(_errorHelper.GetErrorMsg(ApiError.NoneWereFound, "Purchase"));
+                if (purchases == null) throw new Exception(_errorHelper.GetErrorMsg(ApiError.NoneWereFound, "Purchase"));
 
                 return Ok(purchases);
             }
